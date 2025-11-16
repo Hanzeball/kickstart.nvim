@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.o.relativenumber = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -168,6 +168,26 @@ vim.o.confirm = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
+
+-- Custom keymaps
+vim.keymap.set('i', 'jk', '<ESC>')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = 'VimExplore' })
+
+vim.keymap.set('n', '<leader>x', function()
+  local currentBuffer = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_delete(currentBuffer, {})
+end, { desc = 'Close current buffer' })
+
+vim.keymap.set('n', '<leader>X', function()
+  local currentBuffer = vim.api.nvim_get_current_buf()
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if buf ~= currentBuffer then
+      vim.api.nvim_buf_delete(buf, {})
+    end
+  end
+end, { desc = 'Close other buffers' })
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -682,6 +702,11 @@ require('lazy').setup({
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
+        angularls = {
+          -- root_dir = require('lspconfig.util').root.pattern('angular.json', 'package.json'),
+          cmd = { 'ngserver', '--stdio', '--tsProbeLocations', '', '--ngProbeLocations', '' },
+        },
+        cssls = {},
         --
 
         lua_ls = {
@@ -713,7 +738,11 @@ require('lazy').setup({
       --
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
+      local ensure_installed = vim.tbl_keys(servers or {
+        'eslint',
+        'html',
+        'typescript-tools',
+      })
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
       })
@@ -984,7 +1013,7 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
