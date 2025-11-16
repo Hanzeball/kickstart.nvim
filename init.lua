@@ -795,6 +795,7 @@ require('lazy').setup({
         desc = '[F]ormat buffer',
       },
     },
+    async = true,
     opts = {
       notify_on_error = false,
       format_on_save = function(bufnr)
@@ -818,8 +819,9 @@ require('lazy').setup({
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
-        angularls = { 'prettierd', 'eslintd' },
-        ['typescript-tools'] = { 'prettierd', 'eslintd' },
+        html = { 'prettierd', 'eslintd' },
+        typescript = { 'prettierd', 'eslintd' },
+        css = { 'prettierd', 'eslintd' },
       },
     },
   },
