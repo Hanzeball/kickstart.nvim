@@ -751,8 +751,8 @@ require('lazy').setup({
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {
-        'eslint',
-        'html',
+        'eslint_d',
+        'html-lsp',
         'typescript-tools',
         'roslyn',
       })
@@ -819,7 +819,8 @@ require('lazy').setup({
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
-        html = { 'prettierd', 'eslintd' },
+        cshtml = { 'prettierd', 'eslintd' },
+        htmlangular = { 'prettierd', 'eslintd' },
         typescript = { 'prettierd', 'eslintd' },
         css = { 'prettierd', 'eslintd' },
       },
